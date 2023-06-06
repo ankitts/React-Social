@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
+// const dotenv = require("dotenv");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const userRoute = require("./routes/users");
@@ -9,8 +9,12 @@ const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
 const multer = require("multer");
 const path = require("path");
+require("dotenv").config();
 
-uri = "mongodb+srv://admin:0vm45PYyqKf1lqW8@vibe.kkhhh5a.mongodb.net/Vibe?retryWrites=true&w=majority"
+const port = process.env.PORT || 8800
+
+const uri = process.env.MONGO_URL
+// console.log(process.env.MONGO_URL)
 // ur1 = process.env.MONGO_URL;
 // console.log(ur1);
 
@@ -43,7 +47,7 @@ uri = "mongodb+srv://admin:0vm45PYyqKf1lqW8@vibe.kkhhh5a.mongodb.net/Vibe?retryW
 // run().catch(console.dir);
 
 
-dotenv.config();
+// dotenv.config();
 mongoose.set('strictQuery', false);
 mongoose
   .connect(uri, {
@@ -82,7 +86,7 @@ app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/posts", postRoute);
 
-app.listen(8800, ()=>{
+app.listen(port, ()=>{
     console.log("Backend server is running.")
 });
 
