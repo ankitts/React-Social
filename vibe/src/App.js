@@ -7,11 +7,12 @@ import { Route,Routes} from "react-router";
 import { BrowserRouter, Navigate} from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
-
+import axios from "axios";
 
 function App() {
 
     const {user} = useContext(AuthContext)
+    axios.defaults.baseURL = "http://localhost:8800/api";
     return(
         <BrowserRouter>
             <Routes>

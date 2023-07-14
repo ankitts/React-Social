@@ -9,6 +9,8 @@ const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
 const multer = require("multer");
 const path = require("path");
+const cors = require('cors');
+app.use(cors());
 require("dotenv").config();
 
 const port = process.env.PORT || 8800
