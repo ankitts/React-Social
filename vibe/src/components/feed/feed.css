@@ -1,6 +1,10 @@
-.feed{
+.feed {
     flex: 5.5;
-}
-.feedWrapper{
+  }
+  
+  .feedWrapper {
     padding: 10px;
-}
+  }
+  
+  /* No specific responsive changes */
+  

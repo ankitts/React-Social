@@ -38,15 +38,15 @@ export default function Topbar() {
                 
             </div>
             <div className="topbarIcons">
-                <div className="topbarIconItem">
+                <div className="topbarIconItem hide-on-mobile">
                     <PersonIcon />
                     <span className="topbarIconBadge">1</span>
                 </div>
-                <div className="topbarIconItem">
+                <div className="topbarIconItem hide-on-mobile">
                     <ChatIcon />
                     <span className="topbarIconBadge">2</span>
                 </div>
-                <div className="topbarIconItem">
+                <div className="topbarIconItem hide-on-mobile">
                     <NotificationIcon />
                     <span className="topbarIconBadge">3</span>
                 </div>
