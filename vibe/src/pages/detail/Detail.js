@@ -1,18 +1,19 @@
 import "./detail.css"
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, useReducer } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import PermMediaIcon from '@mui/icons-material/PermMedia';
 import { AuthContext } from "../../context/AuthContext";
 import Topbar from "../../components/topbar/Topbar";
-import { Cancel } from "@mui/icons-material";   
+import { Cancel } from "@mui/icons-material";
+import { UpdateProfilePicture } from "../../context/AuthActions";
 
 export default function Detail() {
     const city = useRef();
     const from = useRef();
     const relationship = useRef();
-    const { user, dispatch } = useContext(AuthContext);
+    const { user, dispatch} = useContext(AuthContext);
     const navigate = useNavigate();
     const [profileFile, setProfileFile] = useState(null);
     const [coverFile, setCoverFile] = useState(null);
@@ -33,7 +34,7 @@ export default function Detail() {
                 console.log(err)
             }
             newDetail.profilePicture = profileFileName;
-            dispatch({type:"PROFILE_UPDATE", payload:user._id})
+            dispatch({type:"UPDATE_PROFILE_PICTURE", payload:profileFileName})
         }
         if (coverFile) {
             const data = new FormData();
