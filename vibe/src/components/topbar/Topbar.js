@@ -38,10 +38,10 @@ export default function Topbar() {
                 
             </div>
             <div className="topbarIcons">
-                <div className="topbarIconItem hide-on-mobile">
+                <Link to="/people" className="topbarIconItem hide-on-mobile">
                     <PersonIcon />
                     <span className="topbarIconBadge">1</span>
-                </div>
+                </Link>
                 <div className="topbarIconItem hide-on-mobile">
                     <ChatIcon />
                     <span className="topbarIconBadge">2</span>
