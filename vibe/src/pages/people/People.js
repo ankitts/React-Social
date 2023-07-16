@@ -28,7 +28,7 @@ const People = () => {
 
                 {users.map((user) => (
                     <Link
-                        to={"/profile/" + user.username}
+                        to={`/profile/${user.username}`}
                         style={{ textDecoration: "none" }}
                     >
                         <div className="rightbarFollowing">

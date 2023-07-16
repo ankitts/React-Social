@@ -13,7 +13,7 @@ import axios from "axios";
 function App() {
 
     const {user} = useContext(AuthContext)
-    axios.defaults.baseURL = "https://react-social-0t37.onrender.com/api";
+    // axios.defaults.baseURL = "https://react-social-0t37.onrender.com/api";
     return(
         <BrowserRouter>
             <Routes>

@@ -7,11 +7,11 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import {Add, Remove} from "@mui/icons-material";
 
-export default function Rightbar({user}) {
-  const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+export default function Rightbar({otherUser}) {
+const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const [friends, setFriends] = useState([]);
   const {user: currentUser, dispatch} = useContext(AuthContext);
-  const [ followed, setFollowed] = useState(currentUser.followings.includes(user?.id));
+  const [ followed, setFollowed] = useState(currentUser.followings.includes(otherUser?._id));
 
   // useEffect(()=>{
   //   setFollowed(!currentUser.followings.includes(user?.id))
@@ -20,23 +20,24 @@ export default function Rightbar({user}) {
   useEffect(() => {
     const getFriends = async () => {
       try {
-        const friendList = await axios.get("/users/friends/" + user._id);
+        console.log(followed)
+        const friendList = await axios.get("/users/friends/" + otherUser._id);
         setFriends(friendList.data);
       } catch (err) {
         console.log(err);
       }
     };
     getFriends();
-  }, [user]);
+  }, [otherUser]);
 
   const handleClick = async () =>{
     try {
       if(followed){
-        await axios.put("/users/" + user._id + "/unfollow", {userId: currentUser._id});
-        dispatch({type:"UNFOLLOW", payload:user._id})
+        await axios.put("/users/" + otherUser._id + "/unfollow", {userId: currentUser._id});
+        dispatch({type:"UNFOLLOW", payload:otherUser._id})
       }else{
-        await axios.put("/users/" + user._id + "/follow", {userId: currentUser._id});
-        dispatch({type:"FOLLOW", payload:user._id})
+        await axios.put("/users/" + otherUser._id + "/follow", {userId: currentUser._id});
+        dispatch({type:"FOLLOW", payload:otherUser._id})
       }
     } catch (error) {
       console.log(error);
@@ -65,18 +66,18 @@ export default function Rightbar({user}) {
   const ProfileRightbar =() =>{
     return(   
       <>
-      {user.username !== currentUser.username && (
+      {otherUser.username !== currentUser.username && (
         <button className="rightbarFollowButton" onClick={handleClick}>
           {followed ? "Unfollow": "Follow"}
           {followed ? <Remove />: <Add />}
         </button>
       )}
-      {user.username === currentUser.username && (
+      {otherUser.username === currentUser.username && (
         <Link
         to={"/detail"}
         style={{ textDecoration: "none" }}
         >
-          <button className="rightbarFollowButton" onClick={handleClick}>
+          <button className="rightbarFollowButton">
             Edit details
           </button>
         </Link>
@@ -85,15 +86,15 @@ export default function Rightbar({user}) {
       <div className="rightbarInfo">
         <div className="rightbarInfoItem">
           <span className="rightbarInfoKey">City:</span>
-          <span className="rightbarInfoValue">{user.city}</span>
+          <span className="rightbarInfoValue">{otherUser.city}</span>
         </div>
         <div className="rightbarInfoItem">
           <span className="rightbarInfoKey">From:</span>
-          <span className="rightbarInfoValue">{user.from}</span>
+          <span className="rightbarInfoValue">{otherUser.from}</span>
         </div>
         <div className="rightbarInfoItem">
           <span className="rightbarInfoKey">Relationship:</span>
-          <span className="rightbarInfoValue">{user.relationship===1 ? "Single" : user.relationship===2 ?"Married" : user.relationship===3 ? "Divorced": ""}</span>
+          <span className="rightbarInfoValue">{otherUser.relationship===1 ? "Single" : otherUser.relationship===2 ?"Married" : otherUser.relationship===3 ? "Divorced": ""}</span>
         </div>
       </div>
       <h4 className="rightbarTitle">User friends</h4>
@@ -124,7 +125,7 @@ export default function Rightbar({user}) {
   return (
     <div className="rightbar">
       <div className="rightbarWrapper">
-        {user ? <ProfileRightbar/> : <HomeRightbar/>}
+        {otherUser ? <ProfileRightbar/> : <HomeRightbar/>}
       </div>
     </div>
   )
