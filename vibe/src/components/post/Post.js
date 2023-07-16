@@ -1,20 +1,21 @@
 import "./post.css";
-import { useState, useEffect, useContext} from "react";
+import { useState, useEffect, useContext } from "react";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import {format} from "timeago.js";
+import { format } from "timeago.js";
 import axios from "axios";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext";
 
-export default function Post({post}) {
+export default function Post({ post, deletePost }) {
   const [like, setLike] = useState(post.likes.length);
   const [isLiked, setIsLiked] = useState(false);
   const [user, setUser] = useState([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-  const {user: currentUser} = useContext(AuthContext);
-  
+  const { user: currentUser } = useContext(AuthContext);
+
   useEffect(() => {
     setIsLiked(post.likes.includes(currentUser._id));
   }, [currentUser._id, post.likes]);
@@ -30,10 +31,25 @@ export default function Post({post}) {
   const likeHandler = () => {
     try {
       axios.put("/posts/" + post._id + "/like", { userId: currentUser._id });
-    } catch (err) {}
+    } catch (err) { }
     setLike(isLiked ? like - 1 : like + 1);
     setIsLiked(!isLiked);
   };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const deleteHandler = async () => {
+    try {
+      if (window.confirm("Are you sure to delete this post")) {
+        await axios.delete("/posts/" + post._id, { data: { userId: currentUser._id } });
+        deletePost(post._id);
+      }
+    } catch (err) { }
+
+  };
+
   return (
     <div className="post">
       <div className="postWrapper">
@@ -54,7 +70,15 @@ export default function Post({post}) {
             <span className="postDate">{format(post.createdAt)}</span>
           </div>
           <div className="postTopRight">
-            <MoreVertIcon />
+            <button onClick={toggleDropdown}>
+              <MoreVertIcon />
+            </button>
+            {currentUser._id == post.userId && isDropdownOpen && (
+              <div className="dropdown-content">
+                <button onClick={deleteHandler}>Delete Post</button>
+              </div>
+            )}
+
           </div>
         </div>
         <div className="postCenter">
@@ -63,7 +87,7 @@ export default function Post({post}) {
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">
-            {isLiked ? <FavoriteIcon className="likeIcon" onClick={likeHandler} /> : <FavoriteBorderIcon className="likeIcon" onClick={likeHandler} />}          
+            {isLiked ? <FavoriteIcon className="likeIcon" onClick={likeHandler} /> : <FavoriteBorderIcon className="likeIcon" onClick={likeHandler} />}
             <span className="postLikeCounter">{like} likes</span>
           </div>
           <div className="postBottomRight">

@@ -24,12 +24,16 @@ export default function Feed({ username }) {
     fetchPosts();
   }, [username, user._id]);
 
+  const deletePost = async (postId) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+  };
+  
   return (
     <div className="feed">
       <div className="feedWrapper">
         {(!username || username === user.username) && <Share />}
         {posts.map((p) => (
-          <Post key={p._id} post={p} />
+          <Post key={p._id} post={p} deletePost={deletePost} />
         ))}
       </div>
     </div>

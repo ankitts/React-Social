@@ -4,6 +4,7 @@
   -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
   box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
   margin: 30px 0;
+  position: relative;
 }
 
 .postWrapper {
@@ -77,6 +78,57 @@
   font-size: 15px;
 }
 
+.postTopRight {
+  position: relative;
+}
+
+.postTopRight button {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.postTopRight button:focus {
+  outline: none;
+}
+
+.postTopRight button:hover,
+.postTopRight button:focus {
+  background-color: #f9f9f9;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%; /* Change the top value */
+  right: 0;
+  z-index: 1;
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 1px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+  width: 80px;
+}
+
+.dropdown-content button {
+  color: red;
+  text-decoration: none;
+  display: block;
+  padding: 5px;
+  border-radius: 1px;
+}
+
+.dropdown-content button:hover {
+  background-color: #f9f9f9;
+}
+
+.postTopRight:hover .dropdown-content {
+  display: block;
+}
+
 /* Responsive Styles for Mobile */
 @media (max-width: 767px) {
   .postWrapper {
@@ -126,5 +178,9 @@
 
   .postCommentText {
     font-size: 12px;
+  }
+
+  .dropdown-content {
+    top: 28px;
   }
 }
